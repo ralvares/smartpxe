@@ -98,6 +98,7 @@ The SmartPXE offers the following configuration parameters.
 | worker<Y>_role    | Worker Role(Optional) **It is obvious**   |
 
 > X is the number of the Master Node: From 1 to 3
+
 > Y is the number of the Worker Node: From 2 to **Up to you**
 
 Config File Example
