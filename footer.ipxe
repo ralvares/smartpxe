@@ -1,0 +1,131 @@
+
+
+ifopen net0
+
+#Discovery nic for vmware and kvm
+set ens33 0000:02:01.0
+set ens38 0000:02:06.0
+set ens192 0000:0b:00.0
+set ens224 0000:13:00.0
+set enp1s0 0000:01:00.0
+
+isset ${net_interface} ||
+iseq ${net0/busloc:busdevfn} ${ens33} && set net_interface ens33 ||
+iseq ${net0/busloc:busdevfn} ${ens38} && set net_interface ens38 ||
+iseq ${net1/busloc:busdevfn} ${ens33} && set net_interface ens33 ||
+iseq ${net1/busloc:busdevfn} ${ens38} && set net_interface ens38 ||
+iseq ${net0/busloc:busdevfn} ${ens192} && set net_interface ens192 ||
+iseq ${net0/busloc:busdevfn} ${ens224} && set net_interface ens224 ||
+iseq ${net1/busloc:busdevfn} ${ens192} && set net_interface ens192 ||
+iseq ${net1/busloc:busdevfn} ${ens224} && set net_interface ens224 ||
+
+isset ${bootstrap_ip} &&
+iseq ${bootstrap_mac} ${net0/mac} && set bootstrap bootstrap ||
+iseq ${bootstrap_tag} ${asset} && set bootstrap bootstrap ||
+isset ${bootstrap_net_interface} && set net_interface ${bootstrap_net_interface} ||
+isset ${bootstrap} && goto bootstrap ||
+
+set node_number:int32 1
+
+:loop_master isset ${master${node_number}_ip} || goto loop_master_done
+    iseq ${master${node_number}_mac} ${net0/mac} && set master master${node_number} ||
+    iseq ${master${node_number}_tag} ${asset} && set master master${node_number} ||
+    isset ${master${node_number}_net_interface} && set net_interface ${master${node_number}_net_interface} ||
+    isset ${master} && goto master ||
+    inc node_number && goto loop_master
+:loop_master_done
+set node_number:int32 1
+goto loop_worker
+
+:loop_worker isset ${worker${node_number}_ip} || goto loop_worker_done
+    iseq ${worker${node_number}_mac} ${net0/mac} && set worker worker${node_number} ||
+    iseq ${worker${node_number}_tag} ${asset} && set worker worker${node_number} ||
+    isset ${worker} && goto worker ||
+    inc node_number && goto loop_worker
+:loop_worker_done
+goto select_node
+
+:bootstrap
+set hostname ${${bootstrap}_hostname}.${cluster_name}.${domain_name}
+set ignition bootstrap.ign
+set net0/ip ${${bootstrap}_ip}
+set net0/netmask ${netmask}
+set net0/gateway ${gateway}
+set dns ${dns_server}
+ping -c 3 -q ${gateway} || goto ping_gateway_log &&
+iseq ${dns_check} ${${master}_ip} && goto check_dns_api || goto dns_error_master_ptr
+
+:master
+set hostname ${${master}_hostname}.${cluster_name}.${domain_name}
+set ignition master.ign
+set net0/ip ${${master}_ip}
+set net0/netmask ${netmask}
+set net0/gateway ${gateway}
+set dns ${dns_server}
+ping -c 3 -q ${gateway} || goto ping_gateway_log &&
+nslookup dns_check ${${master}_hostname}.${cluster_name}.${domain_name} || goto dns_error_master &&
+iseq ${dns_check} ${${master}_ip} && goto check_dns_api || goto dns_error_master_ptr
+
+:worker
+set hostname ${${worker}_hostname}.${cluster_name}.${domain_name}
+set ignition worker.ign
+set net0/ip ${${worker}_ip}
+set net0/netmask ${netmask}
+set net0/gateway ${gateway}
+set dns ${dns_server}
+ping -c 3 -q ${gateway} || goto ping_gateway_log &&
+nslookup dns_check ${${worker}_hostname}.${cluster_name}.${domain_name} || goto dns_error_worker &&
+iseq ${dns_check} ${${worker}_ip} && goto check_dns_api || goto dns_error_worker_ptr
+
+:check_dns_api
+nslookup api api.${cluster_name}.${domain_name} || goto dns_error_api && goto check_dns_api_int
+:check_dns_api_int
+nslookup api-int api-int.${cluster_name}.${domain_name} || goto dns_error_api_int && goto check_dns_apps
+:check_dns_apps
+nslookup apps randon.apps.${cluster_name}.${domain_name} || goto dns_error_apps && goto install
+:dns_error_api
+prompt api.${cluster_name}.${domain_name} not found. Press any key to try again || goto check_dns_api && goto check_dns_api
+:dns_error_api_int
+prompt api-int.${cluster_name}.${domain_name} not found. Press any key to try again || goto check_dns_api_int && goto check_dns_api_int
+:dns_error_apps
+prompt *.apps.${cluster_name}.${domain_name} not found. Press any key to try again || goto check_dns_apps && goto check_dns_apps
+:dns_error_master
+prompt ${master} DNS entry not found. Press any key to try again || goto master && goto master
+:dns_error_master_ptr
+prompt ${master} Wrong IP Address. Press any key to try again || goto master && goto master
+:dns_error_worker
+prompt ${worker} DNS entry not found. Press any key to try again || goto worker && goto worker
+:dns_error_worker_ptr
+prompt ${worker} Wrong IP Address. Press any key to try again || goto worker && goto worker
+:ping_gateway_log
+prompt -t 10000000 Pinging - ${gateway} - Connection timed out. Check the network connectivity and try again.  || exit && exit
+
+:select_node
+set node_number:int32 1
+menu Please choose an Node to install
+    item bootstrap   bootstrap
+:add_menu_master isset ${master${node_number}_ip} || goto add_menu_master_done
+    item master${node_number}   Master ${node_number}
+    inc node_number && goto add_menu_master
+:add_menu_master_done
+    set node_number:int32 1
+    goto add_menu_worker
+:add_menu_worker isset ${worker${node_number}_ip} || goto menu_done
+    item worker${node_number}   Worker ${node_number}
+    inc node_number && goto add_menu_worker
+:menu_done
+    choose node &&
+    iseq ${${node}_role} master && set master ${node} ||
+    iseq ${${node}_role} worker && set worker ${node} ||
+    iseq ${${node}_role} bootstrap && set bootstrap ${node} ||
+    isset ${master} && goto master ||
+    isset ${worker} && goto worker ||
+    isset ${bootstrap} && goto bootstrap || 
+    shell
+    prompt -t 10000000 !!!! 0 Nodes found - Please set Mac Address or Node Role for identification and try again. !!!!
+
+:install
+imgfetch -n init_img http://${fileserver}/${initrd}
+kernel http://${fileserver}/${kernel} initrd=init_img console=ttyS1,115200n8 console=tty0 coreos.live.rootfs_url=http://${fileserver}/${rootfs} coreos.inst.install_dev=${install_drive} coreos.inst.ignition_url=http://${fileserver}/${ignition} ip=${net0/ip}::${net0/gateway}:${net0/netmask}:${hostname}:${net_interface}:none nameserver=${dns_server} ignition.platform.id=metal
+initrd http://${fileserver}/${initrd}
+boot
