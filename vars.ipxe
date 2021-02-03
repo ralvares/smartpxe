@@ -1,0 +1,46 @@
+set cluster_name ocp4
+set domain_name ralvares.com
+
+set fileserver 172.16.160.1:8081
+set kernel rhcos-live-kernel-x86_64
+set initrd rhcos-live-initramfs.x86_64.img
+set rootfs rhcos-live-rootfs.x86_64.img
+
+set install_drive /dev/sda
+set net_interface ens33
+
+set gateway 172.16.160.1
+set dns_server 172.16.160.1
+set netmask 255.255.255.0
+
+set bootstrap_mac 00:0c:29:c5:d3:8b
+set bootstrap_tag bootstrap_node_001
+set bootstrap_hostname bootstrap
+set bootstrap_ip 172.16.160.20
+set bootstrap_role bootstrap
+
+set master1_mac 00:0c:29:e2:c6:fa
+set master1_role master
+set master1_tag master_node_001
+set master1_hostname master001
+set master1_ip 172.16.160.21
+
+set master2_mac 00:0c:29:e2:c6:fb
+set master2_role master
+set master2_hostname master002
+set master2_ip 172.16.160.22
+
+set master3_mac 00:0c:29:e2:c6:fc
+set master3_hostname master003
+set master3_ip 172.16.160.23
+set master3_role master
+
+set worker1_mac 00:50:56:2c:18:1e
+set worker1_hostname worker001
+set worker1_ip 172.16.160.30
+set worker1_role worker
+
+set worker2_mac 00:50:56:2c:18:2e
+set worker2_hostname worker002
+set worker2_ip 172.16.160.31
+set worker2_role worker
