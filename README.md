@@ -1,14 +1,5 @@
----
-title: 'Smart PXE'
-disqus: hackmd
----
-
-Smart PXE
+SmartPXE
 ===
-
-## Table of Contents
-
-[TOC]
 
 ## SmartPXE
 
