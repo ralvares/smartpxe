@@ -24,7 +24,7 @@ This project's primary goal is to automate Openshift/OKD cluster installation an
 Available checks:
 
 * Network connectivity - ping gateway
-* Check DNS records such as api,api-int,*.apps, hostnames)
+* Check DNS records such as api, api-int, *.apps, hostnames
 * Check if the IP corresponds to the correct hostname. 
 * Network device detection based on busdev (Good for labs, so far just VMware and libvirt)
 
