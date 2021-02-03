@@ -34,10 +34,15 @@ Available checks:
 Automation Workflow
 ---
 1 - Ping Gateway
+
 2 - Check dns(fqdn): hostname.cluster.domainname 
+
 3 - Check dns record: api.cluster.domainname
+
 4 - Check dns record: api-int.cluster.domainname
+
 5 - Check dns record: *apps.cluster.domainname
+
 6 - Try to detect net_interface based on busdev
 
  - ens192 0000:0b:00.0 ( vSphere nic 1)
@@ -54,6 +59,7 @@ Automation Workflow
  -  Role (master,worker,bootstrap)
  
 9 - Fetch OCP Images - kernel, initrd and rootfs
+
 10 - Install CoreOS.
 
 Configuration Parameters
