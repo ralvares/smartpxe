@@ -1,6 +1,3 @@
-SmartPXE
-===
-
 ## SmartPXE
 
 You probably deploy your OCP/OKD cluster through PXE/DHCP or static IPs with manual interactions. DHCP is the most convenient way to deploy nodes in an automated Way. But what about having to init a new environment without DHCP at all remotely? Suppose you have an OCP4/OKD cluster that you have to deploy, but there is no DHCP environment due to security constraints.
@@ -35,7 +32,7 @@ Automation Workflow
 ---
 1 - Ping Gateway
 
-2 - Check dns(fqdn): hostname.cluster.domainname 
+2 - Check dns(fqdn): hostname.cluster.domainname
 
 3 - Check dns record: api.cluster.domainname
 
@@ -101,7 +98,7 @@ The SmartPXE offers the following configuration parameters.
 
 > Y is the number of the Worker Node: From 2 to **Up to you**
 
-Config File Example
+Inventory File Example
 ---
 ```
 cluster_name ocp4
@@ -164,11 +161,19 @@ worker<Y>_role worker
 Generating the Images
 ---
 
-git clone REPO
-cd REPO
-
+```
+git clone https://github.com/ralvares/smartpxe
+cd smartpxe
+vi inventory
 podman build -t smartpxe -f Dockerfile .
 
+podman create --name smartpxe smartpxe --entrypoint /
+podman cp smartpxe:/ipxe_bios.iso .
+podman cp smartpxe:/ipxe_efi.iso .
+podman rm smartpxe
+```
+
+From now, you just need to boot up all the nodes using the iso image and go grab a Coffee :) 
 
 Pending:
 ---
