@@ -1,4 +1,4 @@
-FROM centos AS stage1
+FROM centos
 USER root
 COPY . /tmp/src
 
@@ -10,7 +10,3 @@ RUN yum install git xz-devel wget make gcc syslinux mkisofs -y && \
     cp -rf /tmp/src/settings.h config/settings.h && \
     make bin/ipxe.iso EMBED=/tmp/src/custom.ipxe && \
     make bin-x86_64-efi/ipxe.iso EMBED=/tmp/src/custom.ipxe
-
-FROM scratch AS export-stage
-COPY --from=stage1 /ipxe/src/bin/ipxe.iso ipxe_bios.iso
-COPY --from=stage1 /ipxe/src/bin-x86_64-efi/ipxe.iso ipxe_efi.iso
