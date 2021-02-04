@@ -69,7 +69,7 @@ The SmartPXE offers the following configuration parameters.
 | -------- | -------- | 
 | cluster_name    | OCP Cluster Name     | 
 | domain_name    | Domain Name     | 
-| fileserver    | Webserver:port that holds the Ignition file,kernel,initrd and rootfs images.    | 
+| fileserver    | Webserver:port that holds the master.ign,bootstrap.ign,worker.ig,kernel,initrd and rootfs images.    | 
 | kernel    | The RHCOS live-kernel    | 
 | initrd   | The RHCOS live-initrd     | 
 | rootfs    | The RHCOS live-rootfs    | 
