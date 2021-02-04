@@ -168,8 +168,8 @@ vi inventory
 podman build -t smartpxe -f Dockerfile .
 
 podman create --name smartpxe smartpxe --entrypoint /
-podman cp smartpxe:/ipxe_bios.iso .
-podman cp smartpxe:/ipxe_efi.iso .
+podman cp smartpxe:/ipxe/src/bin/ipxe.iso ipxe_bios.iso
+podman cp smartpxe:/ipxe/src/bin-x86_64-efi/ipxe.iso ipxe_efi.iso
 podman rm smartpxe
 ```
 
