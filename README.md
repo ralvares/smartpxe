@@ -32,13 +32,13 @@ Automation Workflow
 ---
 1 - Ping Gateway
 
-2 - Check dns(fqdn): hostname.cluster.domainname
+2 - Check dns - hostname: hostname.cluster.domainname
 
-3 - Check dns record: api.cluster.domainname
+3 - Check dns - api : api.cluster.domainname
 
-4 - Check dns record: api-int.cluster.domainname
+4 - Check dns - api-int : api-int.cluster.domainname
 
-5 - Check dns record: *apps.cluster.domainname
+5 - Check dns - *.apps : *apps.cluster.domainname
 
 6 - Try to detect net_interface based on busdev
 
