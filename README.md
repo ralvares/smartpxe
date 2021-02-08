@@ -48,7 +48,7 @@ Automation Workflow
  - ens38 0000:02:06.0 (Vmware workstation nic 2)
  - enp1s0 0000:01:00.0 (libvirt)
 
-7 - Menu Selector based on Node Role if Auto Detection fails.
+7 - Menu Selector based on Node Role.
  -  Role (master,worker,bootstrap)
  
 8 - Fetch OCP Images - kernel, initrd and rootfs
