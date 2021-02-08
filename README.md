@@ -133,7 +133,6 @@ worker2_role worker
 .
 .
 
-worker<Y>_mac 00:50:56:2c:18:2e
 worker<Y>_hostname worker002
 worker<Y>_ip 172.16.160.31
 worker<Y>_role worker
