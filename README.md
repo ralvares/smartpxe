@@ -166,7 +166,11 @@ podman cp smartpxe:/ipxe/src/bin-x86_64-efi/ipxe.iso ipxe_efi.iso
 podman rm smartpxe
 ```
 
-From now, you just need to boot up all the nodes using the iso image and go grab a Coffee :) 
+From now, you just need to boot up all the nodes using the iso image, select the respective node you want to install and go grab a Coffee :) 
+
+SmartPXE menu selector preview:
+
+![](https://i.imgur.com/XUEMleu.png)
 
 Pending:
 ---
