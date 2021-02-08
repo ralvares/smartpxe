@@ -48,16 +48,12 @@ Automation Workflow
  - ens38 0000:02:06.0 (Vmware workstation nic 2)
  - enp1s0 0000:01:00.0 (libvirt)
 
-7 - Auto Detect node based on:
- -  Mac Address
- -  Asset Tag
-
-8 - Menu Selector based on Node Role if Auto Detection fails.
+7 - Menu Selector based on Node Role if Auto Detection fails.
  -  Role (master,worker,bootstrap)
  
-9 - Fetch OCP Images - kernel, initrd and rootfs
+8 - Fetch OCP Images - kernel, initrd and rootfs
 
-10 - Install CoreOS.
+9 - Install CoreOS.
 
 Configuration Parameters
 ---
@@ -79,20 +75,17 @@ The SmartPXE offers the following configuration parameters.
 | dns_server    | DNS server - For now, it supports just one.     |
 | netmask   | Default netmask     |
 | bootstrap_mac    | Bootstrap Node Mac address     |
-| bootstrap_tag    | Bootstrap Node Asset tag(Optional)     |
 | bootstrap_hostname     | Bootstrap Node hostname     |
 | bootstrap_ip   | Bootstrap Node IP Address     |
-| bootstrap_role    | Bootstrap Node Role(Optional) **It is obvious**      |
+| bootstrap_role    | Bootstrap Node Role(Mandatory) **It is obvious** - bootstrap      |
 | master<X>_mac    | Master Node Mac address     |
-| master<X>_tag    | Master Node Asset tag(Optional)     |
 | master<X>_hostname    | Master Node hostname     |
 | master<X>_ip    | Master Node IP Address     | 
-| master<X>_role    | Master Role(Optional) **It is obvious**     |
+| master<X>_role    | Master Role(Mandatory) **It is obvious** - master   |
 | worker<Y>_mac    | Worker Node Mac address     | 
-| worker<Y>_tag    | Worker Asset tag(Optional)     |
 | worker<Y>_hostname    | Worker Node hostname     |
 | worker<Y>_ip    | Worker IP Address     |
-| worker<Y>_role    | Worker Role(Optional) **It is obvious**   |
+| worker<Y>_role    | Worker Role(Mandatory) **It is obvious** - worker  |
 
 > X is the number of the Master Node: From 1 to 3
 
