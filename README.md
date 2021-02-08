@@ -74,15 +74,12 @@ The SmartPXE offers the following configuration parameters.
 | gateway    | Default router IP     | 
 | dns_server    | DNS server - For now, it supports just one.     |
 | netmask   | Default netmask     |
-| bootstrap_mac    | Bootstrap Node Mac address     |
 | bootstrap_hostname     | Bootstrap Node hostname     |
 | bootstrap_ip   | Bootstrap Node IP Address     |
 | bootstrap_role    | Bootstrap Node Role(Mandatory) **It is obvious** - bootstrap      |
-| master<X>_mac    | Master Node Mac address     |
 | master<X>_hostname    | Master Node hostname     |
 | master<X>_ip    | Master Node IP Address     | 
 | master<X>_role    | Master Role(Mandatory) **It is obvious** - master   |
-| worker<Y>_mac    | Worker Node Mac address     | 
 | worker<Y>_hostname    | Worker Node hostname     |
 | worker<Y>_ip    | Worker IP Address     |
 | worker<Y>_role    | Worker Role(Mandatory) **It is obvious** - worker  |
@@ -109,34 +106,26 @@ gateway 172.16.160.1
 dns_server 172.16.160.1
 netmask 255.255.255.0
 
-bootstrap_mac 00:0c:29:c5:d3:8b
-bootstrap_tag bootstrap_node_001
 bootstrap_hostname bootstrap
 bootstrap_ip 172.16.160.20
 bootstrap_role bootstrap
 
-master1_mac 00:0c:29:e2:c6:fa
 master1_role master
-master1_tag master_node_001
 master1_hostname master001
 master1_ip 172.16.160.21
 
-master2_mac 00:0c:29:e2:c6:fb
 master2_role master
 master2_hostname master002
 master2_ip 172.16.160.22
 
-master3_mac 00:0c:29:e2:c6:fc
 master3_hostname master003
 master3_ip 172.16.160.23
 master3_role master
 
-worker1_mac 00:50:56:2c:18:1e
 worker1_hostname worker001
 worker1_ip 172.16.160.30
 worker1_role worker
 
-worker2_mac 00:50:56:2c:18:2e
 worker2_hostname worker002
 worker2_ip 172.16.160.31
 worker2_role worker
