@@ -13,34 +13,26 @@ gateway 172.16.160.1
 dns_server 172.16.160.1
 netmask 255.255.255.0
 
-bootstrap_mac 00:0c:29:c5:d3:8b
-bootstrap_tag bootstrap_node_001
 bootstrap_hostname bootstrap
 bootstrap_ip 172.16.160.20
 bootstrap_role bootstrap
 
-master1_mac 00:0c:29:e2:c6:fa
 master1_role master
-master1_tag master_node_001
 master1_hostname master001
 master1_ip 172.16.160.21
 
-master2_mac 00:0c:29:e2:c6:fb
 master2_role master
 master2_hostname master002
 master2_ip 172.16.160.22
 
-master3_mac 00:0c:29:e2:c6:fc
 master3_hostname master003
 master3_ip 172.16.160.23
 master3_role master
 
-worker1_mac 00:50:56:2c:18:1e
 worker1_hostname worker001
 worker1_ip 172.16.160.30
 worker1_role worker
 
-worker2_mac 00:50:56:2c:18:2e
 worker2_hostname worker002
 worker2_ip 172.16.160.31
 worker2_role worker
